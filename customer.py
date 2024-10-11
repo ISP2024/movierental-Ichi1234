@@ -48,7 +48,7 @@ class Customer:
                 rental.get_days_rented(),
                 rental.get_price())
 
-            total_frequent_renter_points += rental.rental_points()
+            total_frequent_renter_points += rental.get_rental_points()
 
         # footer: summary of charges
         statement += "\n"
