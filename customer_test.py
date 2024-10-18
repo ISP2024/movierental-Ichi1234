@@ -31,18 +31,18 @@ class CustomerTest(unittest.TestCase):
         self.assertIsNotNone(matches)
         self.assertEqual("0.00", matches[1])
         # add a rental
-        self.c.add_rental(Rental(self.new_movie, 4)) # days
+        self.c.add_rental(Rental(self.new_movie, self.new_movie.price_strategy, 4)) # days
         stmt = self.c.statement()
         matches = re.match(pattern, stmt.replace('\n',''), flags=re.DOTALL)
         self.assertIsNotNone(matches)
         self.assertEqual("12.00", matches[1])
 
     def test_compute_total_amount(self):
-        self.c.add_rental(Rental(self.new_movie, 4))  # days
+        self.c.add_rental(Rental(self.new_movie, self.new_movie.price_strategy, 4))  # days
         amount1 = self.c.compute_total_amount()
         self.assertEqual(12, amount1)
 
-        self.c.add_rental(Rental(self.new_movie, 4))  # days
+        self.c.add_rental(Rental(self.new_movie, self.new_movie.price_strategy, 4))  # days
         amount2 = self.c.compute_total_amount()
         self.assertEqual(24, amount2)
 

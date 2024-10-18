@@ -22,14 +22,6 @@ class Movie:
         # get the price code
         return self.price_strategy
 
-    def get_rental_points(self, days: int) -> float:
-        return self.price_strategy.get_rental_points(days)
-
-    def get_price(self, days :int) -> float:
-        """Calculate the rental price."""
-        return self.price_strategy.get_price(days)
-
-
     def __str__(self):
         return self.title
 
