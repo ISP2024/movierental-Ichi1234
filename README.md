@@ -18,3 +18,16 @@ Before and after each refactoring you should **run the unit tests**.
 
 See [Resources](https://cpske.github.io/ISP/assignment/movierental/movierental-part1#resources) in the assignment description.
 
+## Answer the questions
+
+### 2.1 what refactoring signs (code smells) suggest this refactoring?
+
+Feature Envy
+
+### 2.2 what design principle suggests this refactoring? Why?
+
+It is Single Responsibility Principle.
+
+Single Responsibility: Each class should have one reason to change. In this context, the Movie class should only be responsible for managing movie-related information. While the Rental class should handle everything related to a rental (e.g., rental price, rental points, and pricing strategy).
+
+Since price_code is only relevant in the context of a rental (not for the movie itself), moving it to Rental aligns will make that the Rental class is fully responsible for rental-related behavior.

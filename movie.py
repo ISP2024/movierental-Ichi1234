@@ -18,10 +18,6 @@ class Movie:
     def get_title(self):
         return self.title
 
-    def get_price_code(self):
-        # get the price code
-        return self.price_strategy
-
     def __str__(self):
         return self.title
 
