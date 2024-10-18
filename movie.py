@@ -38,7 +38,7 @@ class MovieCatalog:
             reader = csv.reader(data_file)
 
             for row in reader:
-                if row[0] == "#id":
+                if row[0] in ["#id", "#", []]:
                     continue
                 self.data.append(Movie(row[1], int(row[2]), row[3].split("|")))
 

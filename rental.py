@@ -33,6 +33,9 @@ class Rental:
          else:
              self.price_strategy = RegularPrice()
 
+    def get_price_for_movie(self):
+        return self.price_strategy.get_price(self.get_days_rented())
+
     def get_price_code(self):
         """Get the price code."""
         return self.price_strategy
