@@ -1,5 +1,6 @@
 from movie import Movie
-from pricing import PriceStrategy
+from datetime import datetime
+from pricing import NewRelease, ChildrensPrice, RegularPrice
 
 class Rental:
     """
@@ -12,19 +13,28 @@ class Rental:
     For simplicity of this application only days_rented is recorded.
     """
     
-    def __init__(self, movie: Movie, price: PriceStrategy, days_rented):
+    def __init__(self, movie: Movie, days_rented):
         """Initialize a new movie rental object for
            a movie with known rental period (daysRented).
         """
         self.movie = movie
-        self.price_strategy = price
+        self.price_strategy = None
         self.days_rented = days_rented
 
     def get_movie(self):
         return self.movie
 
+    def price_code_for_movie(self, movie):
+         """Set price code for movie"""
+         if datetime.now().year == movie.year:
+             self.price_strategy = NewRelease()
+         elif "Children" in movie.genres:
+             self.price_strategy = ChildrensPrice()
+         else:
+             self.price_strategy = RegularPrice()
+
     def get_price_code(self):
-        # get the price code
+        """Get the price code."""
         return self.price_strategy
 
     def get_days_rented(self):

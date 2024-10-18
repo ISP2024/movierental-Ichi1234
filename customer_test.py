@@ -15,9 +15,9 @@ class CustomerTest(unittest.TestCase):
         movies = list of some movies
         """
         self.c = Customer("Movie Mogul")
-        self.new_movie = Movie("Mulan", NewRelease(), 2024, ["War", "Female Lead", "Action", "Jwizzed"])
-        self.regular_movie = Movie("CitizenFour", RegularPrice(), 2021, ["FOUR", "Citizen"])
-        self.childrens_movie = Movie("Frozen", ChildrensPrice(), 2016, ["Yes", "let", "it",
+        self.new_movie = Movie("Mulan", 2024, ["War", "Female Lead", "Action", "Jwizzed"])
+        self.regular_movie = Movie("CitizenFour", 2021, ["FOUR", "Citizen"])
+        self.childrens_movie = Movie("Frozen", 2016, ["Yes", "let", "it",
                                                                         "go", "fantasy", "adventure"])
 
     @unittest.skip("No convenient way to test")
@@ -33,18 +33,22 @@ class CustomerTest(unittest.TestCase):
         self.assertIsNotNone(matches)
         self.assertEqual("0.00", matches[1])
         # add a rental
-        self.c.add_rental(Rental(self.new_movie, self.new_movie.price_strategy, 4)) # days
+        self.c.add_rental(Rental(self.new_movie, 4)) # days
+        self.c.rentals[0].price_code_for_movie(self.new_movie)
         stmt = self.c.statement()
         matches = re.match(pattern, stmt.replace('\n',''), flags=re.DOTALL)
+
         self.assertIsNotNone(matches)
         self.assertEqual("12.00", matches[1])
 
     def test_compute_total_amount(self):
-        self.c.add_rental(Rental(self.new_movie, self.new_movie.price_strategy, 4))  # days
+        self.c.add_rental(Rental(self.new_movie, 4))  # days
+        self.c.rentals[0].price_code_for_movie(self.new_movie)
         amount1 = self.c.compute_total_amount()
         self.assertEqual(12, amount1)
 
-        self.c.add_rental(Rental(self.new_movie, self.new_movie.price_strategy, 4))  # days
+        self.c.add_rental(Rental(self.new_movie, 4))  # days
+        self.c.rentals[1].price_code_for_movie(self.new_movie)
         amount2 = self.c.compute_total_amount()
         self.assertEqual(24, amount2)
 
