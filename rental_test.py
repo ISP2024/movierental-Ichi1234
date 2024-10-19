@@ -18,6 +18,9 @@ class RentalTest(unittest.TestCase):
         self.assertEqual(movie.title, "Oppenheimer")
         self.assertIsInstance(rental.price_strategy, RegularPrice)
 
+        movie = MovieCatalog().get_movie("Darksouls 31")
+        self.assertEqual(False, movie)
+
     def test_movie_attributes(self):
         """trivial test to catch refactoring errors or change in API of Movie"""
         m = Movie("Air", 2023, ["History", "James Brucker"])
