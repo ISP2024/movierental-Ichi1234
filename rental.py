@@ -27,7 +27,9 @@ class Rental:
 
     def get_price_for_movie(self):
         """Set price code for movie"""
-        if datetime.now().year == self.movie.year:
+        if not self.movie:
+            return None
+        elif datetime.now().year == self.movie.year:
             return NewRelease()
         elif "Children" in self.movie.genres:
             return ChildrensPrice()

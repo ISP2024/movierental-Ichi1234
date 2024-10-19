@@ -27,10 +27,14 @@ class Movie:
 
 
 class MovieCatalog:
+    _movie_data = None
 
     def __init__(self):
-        self.data = []
-        self.parse_csv()
+        # Initialize the catalog by parsing the CSV if it hasn't been done already
+        if MovieCatalog._movie_data is None:
+            self.parse_csv()
+        else:
+            self.data = MovieCatalog._movie_data
 
     def parse_csv(self):
         """Loop through csv."""
@@ -38,7 +42,6 @@ class MovieCatalog:
             reader = csv.reader(data_file)
 
             for row in reader:
-                print(row)
                 if len(row) < 4 or not row[2].isnumeric() or row[0] in ["#id", "#", []]:
                     continue
                 self.data.append(Movie(row[1], int(row[2]), row[3].split("|")))
@@ -48,9 +51,8 @@ class MovieCatalog:
     def get_movie(self, title, year=None):
         """Get Movie object."""
         for movie in self.data:
-            if title == movie.title and not year:
+            if title.lower() == movie.title.lower() and not year:
                 return movie
-            elif title == movie.title and year == movie.year:
+            elif title.lower() == movie.title.lower() and year == int(movie.year):
                 return movie
-
-            return False
+        return False
