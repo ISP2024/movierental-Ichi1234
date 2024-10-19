@@ -38,7 +38,8 @@ class MovieCatalog:
             reader = csv.reader(data_file)
 
             for row in reader:
-                if row[0] in ["#id", "#", []]:
+                print(row)
+                if len(row) < 4 or not row[2].isnumeric() or row[0] in ["#id", "#", []]:
                     continue
                 self.data.append(Movie(row[1], int(row[2]), row[3].split("|")))
 

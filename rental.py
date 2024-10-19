@@ -18,23 +18,21 @@ class Rental:
            a movie with known rental period (daysRented).
         """
         self.movie = movie
-        self.price_strategy = None
+        self.price_strategy = self.get_price_for_movie()
         self.days_rented = days_rented
 
     def get_movie(self):
         return self.movie
 
-    def price_code_for_movie(self, movie):
-         """Set price code for movie"""
-         if datetime.now().year == movie.year:
-             self.price_strategy = NewRelease()
-         elif "Children" in movie.genres:
-             self.price_strategy = ChildrensPrice()
-         else:
-             self.price_strategy = RegularPrice()
 
     def get_price_for_movie(self):
-        return self.price_strategy.get_price(self.get_days_rented())
+        """Set price code for movie"""
+        if datetime.now().year == self.movie.year:
+            return NewRelease()
+        elif "Children" in self.movie.genres:
+            return ChildrensPrice()
+        else:
+            return RegularPrice()
 
     def get_price_code(self):
         """Get the price code."""
