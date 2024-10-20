@@ -1,6 +1,6 @@
 import csv
+import logging
 
-from pricing import PriceStrategy, NewRelease, ChildrensPrice, RegularPrice
 from dataclasses import dataclass
 from typing import Collection
 
@@ -30,8 +30,23 @@ class MovieCatalog:
 
     def __init__(self):
         # Initialize the catalog by parsing the CSV if it hasn't been done already
+        self.logger = logging.getLogger("MovieCatalog")
+        self.logger.setLevel(logging.DEBUG)
+        self.logging_handler()
+
+        # Initialize movie generator
         self.movie_generator = self.parse_csv()
         self.data = []
+
+    def logging_handler(self):
+        """Add Handler to self.logger."""
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        console_handler.setFormatter(formatter)
+
+        self.logger.addHandler(console_handler)
 
     def parse_csv(self):
         """Loop through csv."""
@@ -40,6 +55,7 @@ class MovieCatalog:
 
             for row in reader:
                 if len(row) < 4 or not row[2].isnumeric() or row[0] in ["#id", "#", []]:
+                    self.logger.debug(f"Unrecognized format {row}")
                     continue
                 yield Movie(row[1], int(row[2]), row[3].split("|"))
 
